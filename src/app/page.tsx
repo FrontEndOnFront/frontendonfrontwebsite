@@ -27,9 +27,9 @@ import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
 
 // Custom hook for intersection observer
-function useIntersectionObserver(options = {}) {
+function useIntersectionObserver(options = {}): [React.RefObject<HTMLDivElement | null>, boolean] {
   const [isIntersecting, setIsIntersecting] = useState(false)
-  const ref = useRef(null)
+  const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -58,7 +58,13 @@ function useIntersectionObserver(options = {}) {
 }
 
 // Fade in component
-function FadeInSection({ children, className = "", delay = 0 }) {
+interface FadeInSectionProps {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}
+
+function FadeInSection({ children, className = "", delay = 0 }: FadeInSectionProps) {
   const [ref, isIntersecting] = useIntersectionObserver()
 
   return (
@@ -79,7 +85,7 @@ export default function LandingPage() {
     <div className="flex flex-col min-h-screen bg-gray-950 text-white">
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b border-gray-800 bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-gray-950/60">
-        <div className="container flex h-16 items-center justify-between">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">
           <div className="flex items-center space-x-2">
             <div className="flex items-center justify-center w-8 h-8 bg-blue-600 rounded-lg">
               <Code className="h-5 w-5 text-white" />
@@ -121,7 +127,7 @@ export default function LandingPage() {
         {/* Hero Section - Optimized for Conversion */}
         <FadeInSection>
           <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-b from-gray-950 to-gray-900">
-            <div className="container px-4 md:px-6">
+            <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="flex flex-col justify-center items-center space-y-8 text-center max-w-4xl mx-auto">
                 {/* Logo */}
                 <div className="flex flex-col items-center space-y-3">
@@ -179,7 +185,7 @@ export default function LandingPage() {
         {/* Trusted By Section */}
         <FadeInSection>
           <section id="clients" className="w-full py-12 md:py-16 bg-gray-950 border-y border-gray-800">
-            <div className="container px-4 md:px-6">
+            <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="flex flex-col items-center justify-center space-y-4 text-center mb-8">
                 <div className="space-y-2">
                   <Badge variant="secondary" className="bg-blue-600/20 text-blue-400 border-blue-600/30">
@@ -271,7 +277,7 @@ export default function LandingPage() {
         {/* Services Section */}
         <FadeInSection>
           <section id="services" className="w-full py-12 md:py-24 lg:py-32 bg-gray-900">
-            <div className="container px-4 md:px-6">
+            <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="flex flex-col items-center justify-center space-y-4 text-center">
                 <div className="space-y-2">
                   <Badge variant="secondary" className="bg-blue-600/20 text-blue-400 border-blue-600/30">
@@ -436,7 +442,7 @@ export default function LandingPage() {
               }
             `}</style>
 
-            <div className="container px-4 md:px-6 relative z-10">
+            <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
               <div className="flex flex-col items-center justify-center space-y-4 text-center">
                 <div className="space-y-2">
                   <Badge variant="secondary" className="bg-blue-600/20 text-blue-400 border-blue-600/30">
@@ -521,7 +527,7 @@ export default function LandingPage() {
         {/* Final CTA Section */}
         <FadeInSection>
           <section id="contact" className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-gray-900 to-gray-950">
-            <div className="container px-4 md:px-6">
+            <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <FadeInSection delay={100}>
                   <div className="space-y-6">
@@ -681,7 +687,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="w-full py-6 bg-gray-900 border-t border-gray-800">
-        <div className="container px-4 md:px-6">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-4">
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
