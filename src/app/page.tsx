@@ -578,7 +578,11 @@ export default function LandingPage() {
                 <FadeInSection delay={200}>
                   <div className="bg-gray-900 p-8 rounded-xl border border-gray-800">
                     <h3 className="text-xl font-bold text-white mb-6">Schedule Your Free Consultation</h3>
-                    <form className="space-y-4">
+                    <form 
+                      action="https://formspree.io/f/mqababed"
+                      method="POST"
+                      className="space-y-4"
+                    >
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div className="space-y-2">
                           <label htmlFor="name" className="text-sm font-medium text-gray-300">
@@ -586,6 +590,8 @@ export default function LandingPage() {
                           </label>
                           <input
                             id="name"
+                            name="name"
+                            required
                             className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
                             placeholder="John Smith"
                           />
@@ -596,6 +602,7 @@ export default function LandingPage() {
                           </label>
                           <input
                             id="company"
+                            name="company"
                             className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
                             placeholder="Your Company"
                           />
@@ -609,7 +616,9 @@ export default function LandingPage() {
                           </label>
                           <input
                             id="email"
+                            name="email"
                             type="email"
+                            required
                             className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
                             placeholder="john@example.com"
                           />
@@ -620,6 +629,7 @@ export default function LandingPage() {
                           </label>
                           <input
                             id="phone"
+                            name="phone"
                             className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
                             placeholder="(123) 456-7890"
                           />
@@ -632,8 +642,11 @@ export default function LandingPage() {
                         </label>
                         <select
                           id="service"
+                          name="service"
+                          required
                           className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
                         >
+                          <option value="">Select a service...</option>
                           <option>Full-Stack Web Application</option>
                           <option>AI Consulting & Integration</option>
                           <option>Software Modernization</option>
@@ -650,7 +663,9 @@ export default function LandingPage() {
                         </label>
                         <textarea
                           id="message"
+                          name="message"
                           rows={4}
+                          required
                           className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
                           placeholder="Tell us about your project..."
                         ></textarea>
@@ -660,6 +675,8 @@ export default function LandingPage() {
                         <input
                           type="checkbox"
                           id="consent"
+                          name="consent"
+                          required
                           className="w-4 h-4 border-gray-700 rounded text-blue-600 focus:ring-blue-600"
                         />
                         <label htmlFor="consent" className="text-sm text-gray-300">
@@ -667,7 +684,7 @@ export default function LandingPage() {
                         </label>
                       </div>
 
-                      <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12">
+                      <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12">
                         Schedule Consultation
                         <Calendar className="ml-2 h-4 w-4" />
                       </Button>
