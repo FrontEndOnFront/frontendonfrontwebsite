@@ -460,63 +460,58 @@ export default function LandingPage() {
 
               <div className="grid md:grid-cols-4 gap-8 mt-12">
                 <FadeInSection delay={100}>
-                  <Card className="bg-gray-900/80 backdrop-blur-sm border-gray-800 relative overflow-hidden group hover:bg-gray-900/90 transition-all duration-300">
-                    <div className="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
-                    <CardContent className="pt-8">
-                      <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mb-4 text-white font-bold">
+                  <Card className="bg-gray-900/20 backdrop-blur-sm border border-gray-800/50 relative overflow-hidden group hover:border-blue-600/50 transition-all duration-300 h-[200px] rounded-2xl p-6">
+                    <div className="flex flex-col h-full">
+                      <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mb-4 text-white font-medium text-base">
                         1
                       </div>
-                      <h3 className="text-xl font-bold text-white mb-2">Discovery</h3>
-                      <p className="text-gray-400">
-                        We learn about your business, goals, and challenges to define the project scope and
-                        requirements.
+                      <h3 className="text-xl font-semibold text-white mb-2">Discovery</h3>
+                      <p className="text-gray-400 text-sm">
+                        We learn about your business, goals, and challenges to define the project scope and requirements.
                       </p>
-                    </CardContent>
+                    </div>
                   </Card>
                 </FadeInSection>
 
                 <FadeInSection delay={200}>
-                  <Card className="bg-gray-900/80 backdrop-blur-sm border-gray-800 relative overflow-hidden group hover:bg-gray-900/90 transition-all duration-300">
-                    <div className="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
-                    <CardContent className="pt-8">
-                      <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mb-4 text-white font-bold">
+                  <Card className="bg-gray-900/20 backdrop-blur-sm border border-gray-800/50 relative overflow-hidden group hover:border-blue-600/50 transition-all duration-300 h-[200px] rounded-2xl p-6">
+                    <div className="flex flex-col h-full">
+                      <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mb-4 text-white font-medium text-base">
                         2
                       </div>
-                      <h3 className="text-xl font-bold text-white mb-2">Planning</h3>
-                      <p className="text-gray-400">
+                      <h3 className="text-xl font-semibold text-white mb-2">Planning</h3>
+                      <p className="text-gray-400 text-sm">
                         We create a detailed roadmap with timelines, milestones, and deliverables for your project.
                       </p>
-                    </CardContent>
+                    </div>
                   </Card>
                 </FadeInSection>
 
                 <FadeInSection delay={300}>
-                  <Card className="bg-gray-900/80 backdrop-blur-sm border-gray-800 relative overflow-hidden group hover:bg-gray-900/90 transition-all duration-300">
-                    <div className="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
-                    <CardContent className="pt-8">
-                      <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mb-4 text-white font-bold">
+                  <Card className="bg-gray-900/20 backdrop-blur-sm border border-gray-800/50 relative overflow-hidden group hover:border-blue-600/50 transition-all duration-300 h-[200px] rounded-2xl p-6">
+                    <div className="flex flex-col h-full">
+                      <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mb-4 text-white font-medium text-base">
                         3
                       </div>
-                      <h3 className="text-xl font-bold text-white mb-2">Development</h3>
-                      <p className="text-gray-400">
+                      <h3 className="text-xl font-semibold text-white mb-2">Development</h3>
+                      <p className="text-gray-400 text-sm">
                         Our expert team builds your solution with regular updates and transparent communication.
                       </p>
-                    </CardContent>
+                    </div>
                   </Card>
                 </FadeInSection>
 
                 <FadeInSection delay={400}>
-                  <Card className="bg-gray-900/80 backdrop-blur-sm border-gray-800 relative overflow-hidden group hover:bg-gray-900/90 transition-all duration-300">
-                    <div className="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
-                    <CardContent className="pt-8">
-                      <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mb-4 text-white font-bold">
+                  <Card className="bg-gray-900/20 backdrop-blur-sm border border-gray-800/50 relative overflow-hidden group hover:border-blue-600/50 transition-all duration-300 h-[200px] rounded-2xl p-6">
+                    <div className="flex flex-col h-full">
+                      <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center mb-4 text-white font-medium text-base">
                         4
                       </div>
-                      <h3 className="text-xl font-bold text-white mb-2">Launch & Support</h3>
-                      <p className="text-gray-400">
+                      <h3 className="text-xl font-semibold text-white mb-2">Launch & Support</h3>
+                      <p className="text-gray-400 text-sm">
                         We ensure a smooth deployment and provide ongoing support to help your business thrive.
                       </p>
-                    </CardContent>
+                    </div>
                   </Card>
                 </FadeInSection>
               </div>
