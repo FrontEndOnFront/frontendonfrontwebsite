@@ -1,30 +1,239 @@
-# FrontEndonFront Landing Page
+# FrontEndonFront Website
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+A modern, responsive business website built with Next.js, TypeScript, and Tailwind CSS. Features a working mobile navigation, contact form integration, and optimized performance.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/troygarcia-8829s-projects/v0-modern-landing-page-design)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/egRJfrva8hN)
+## 🚀 Features
 
-## Overview
+- **Modern Tech Stack**: Next.js 15, TypeScript, Tailwind CSS
+- **Mobile-First Design**: Responsive design with working hamburger menu
+- **Performance Optimized**: Static site generation, optimized images, bundle splitting
+- **Accessibility Ready**: ARIA labels, semantic HTML, keyboard navigation
+- **Testing Suite**: Jest, React Testing Library with comprehensive coverage
+- **CI/CD Pipeline**: GitHub Actions with automated testing and deployment
+- **Production Ready**: Security headers, error handling, monitoring ready
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+## 🛠️ Tech Stack
 
-## Deployment
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS with custom design system
+- **Components**: Custom component library with class-variance-authority
+- **Icons**: Lucide React
+- **Testing**: Jest + React Testing Library
+- **Deployment**: Netlify (static export)
+- **CI/CD**: GitHub Actions
 
-Your project is live at:
+## 📦 Installation
 
-**[https://vercel.com/troygarcia-8829s-projects/v0-modern-landing-page-design](https://vercel.com/troygarcia-8829s-projects/v0-modern-landing-page-design)**
+### Prerequisites
 
-## Build your app
+- Node.js 18+ 
+- npm or yarn
 
-Continue building your app on:
+### Setup
 
-**[https://v0.dev/chat/projects/egRJfrva8hN](https://v0.dev/chat/projects/egRJfrva8hN)**
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd frontendonfrontwebsite
+   ```
 
-## How It Works
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+3. **Set up environment variables**
+   ```bash
+   cp env.example .env.local
+   # Edit .env.local with your configuration
+   ```
+
+4. **Start development server**
+   ```bash
+   npm run dev
+   ```
+
+Visit [http://localhost:3000](http://localhost:3000) to see the application.
+
+## 🧪 Testing
+
+### Run Tests
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage
+npm run test:coverage
+
+# Run tests for CI
+npm run test:ci
+```
+
+### Test Structure
+- Unit tests for components in `__tests__` directories
+- Testing utilities configured in `jest.setup.js`
+- Coverage threshold set to 70% for all metrics
+
+## 🔧 Development
+
+### Available Scripts
+
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+npm run lint:fix     # Fix ESLint errors
+npm run type-check   # Run TypeScript checks
+npm test             # Run tests
+npm run test:coverage # Run tests with coverage
+```
+
+### Code Quality
+
+The project uses:
+- **ESLint** with custom rules for Next.js, React, and TypeScript
+- **TypeScript** for type safety
+- **Prettier** for code formatting (configured in your editor)
+- **Husky** for pre-commit hooks (optional)
+
+### Project Structure
+
+```
+src/
+├── app/                 # Next.js App Router pages
+├── components/          # Reusable components
+│   ├── cards/          # Card components
+│   ├── common/         # Common components (FadeInSection)
+│   ├── forms/          # Form components
+│   ├── layout/         # Layout components (Header, Footer)
+│   └── ui/             # Base UI components
+├── lib/                # Utilities and configuration
+│   ├── data.ts         # Static data and content
+│   ├── design-system.ts # Design system variants
+│   └── utils.ts        # Utility functions
+```
+
+## 🌐 Deployment
+
+### Netlify Deployment
+
+The site is configured for static export and optimized for Netlify deployment.
+
+1. **Automatic Deployment**
+   - Push to `main` branch triggers production deployment
+   - Push to `staging` branch triggers preview deployment
+   - Pull requests create deploy previews
+
+2. **Manual Deployment**
+   ```bash
+   npm run build
+   # Deploy the `out` directory to Netlify
+   ```
+
+3. **Environment Variables**
+   Set these in Netlify dashboard:
+   - `NODE_VERSION=20`
+   - Any environment variables from `env.example`
+
+### Build Configuration
+
+- **Build Command**: `npm run build`
+- **Publish Directory**: `out`
+- **Node Version**: 20
+
+## 🔄 CI/CD Pipeline
+
+### GitHub Actions
+
+The CI/CD pipeline runs on:
+- **Push to main/staging**: Full test suite + deployment
+- **Pull requests**: Tests, linting, security audit, Lighthouse
+
+### Pipeline Jobs
+
+1. **Test**: Run tests on Node.js 18 & 20
+2. **Build**: Create production build
+3. **Lighthouse**: Performance audit (PRs only)
+4. **Security**: npm audit + Snyk scan (PRs only)
+
+### Required Secrets
+
+Set these in GitHub repository settings:
+- `LHCI_GITHUB_APP_TOKEN` (optional, for Lighthouse)
+- `SNYK_TOKEN` (optional, for security scanning)
+
+## 📊 Performance
+
+### Optimizations
+
+- **Static Site Generation**: Pre-built HTML for fast loading
+- **Image Optimization**: WebP/AVIF formats with responsive sizes
+- **Bundle Splitting**: Vendor and page-specific chunks
+- **Tree Shaking**: Lucide icons imported individually
+- **Compression**: Gzip compression enabled
+- **Caching**: Long-term caching for static assets
+
+### Monitoring
+
+Ready for integration with:
+- Google Analytics / GTM
+- Sentry error tracking
+- Vercel Analytics
+- Core Web Vitals monitoring
+
+## 🔐 Security
+
+### Security Features
+
+- **Content Security Policy**: Prevents XSS attacks
+- **Security Headers**: X-Frame-Options, X-Content-Type-Options
+- **Form Protection**: Formspree integration with validation
+- **Dependency Scanning**: Automated security audits
+- **Static Analysis**: ESLint security rules
+
+## 🤝 Contributing
+
+### Development Workflow
+
+1. Create feature branch from `staging`
+2. Make changes with tests
+3. Run quality checks:
+   ```bash
+   npm run lint
+   npm run type-check
+   npm test
+   npm run build
+   ```
+4. Submit pull request to `staging`
+5. After review, merge to `staging`
+6. Deploy to production via `main` branch
+
+### Commit Convention
+
+Follow conventional commits:
+- `feat:` New features
+- `fix:` Bug fixes
+- `docs:` Documentation
+- `style:` Code style changes
+- `refactor:` Code refactoring
+- `test:` Test additions/changes
+- `chore:` Maintenance tasks
+
+## 📝 License
+
+This project is proprietary software of FrontEndonFront.
+
+## 📞 Support
+
+For technical support or questions:
+- **Email**: hello@frontendonfront.com
+- **Phone**: +1 647-382-3188
+
+---
+
+**Built with ❤️ by FrontEndonFront**
