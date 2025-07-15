@@ -1,7 +1,28 @@
 import '@testing-library/jest-dom'
+import React from 'react'
 
 // Add custom jest matchers from jest-dom
 expect.extend({})
+
+// Mock problematic dependencies that cause import issues
+jest.mock('@radix-ui/react-slot', () => ({
+  Slot: ({ children, ...props }) => React.createElement('div', props, children),
+}))
+
+jest.mock('class-variance-authority', () => ({
+  cva: jest.fn(() => jest.fn(() => 'mocked-classes')),
+}))
+
+// Global mocks for components that cause import issues
+jest.mock('next/link', () => {
+  return function MockLink({ children, ...props }) {
+    return React.createElement('a', props, children)
+  }
+})
+
+jest.mock('@/components/ui/button', () => ({
+  Button: ({ children, ...props }) => React.createElement('button', props, children),
+}))
 
 // Mock next/router
 jest.mock('next/router', () => ({

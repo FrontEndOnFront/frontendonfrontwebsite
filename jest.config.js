@@ -11,10 +11,15 @@ const customJestConfig = {
   moduleNameMapper: {
     // Handle module aliases (this will be automatically configured for you based on your tsconfig.json paths)
     '^@/(.*)$': '<rootDir>/src/$1',
-    // Mock Lucide React icons
+    // Mock Lucide React icons - comprehensive patterns
     '^lucide-react$': '<rootDir>/__mocks__/lucide-react.js',
+    '^lucide-react/(.*)$': '<rootDir>/__mocks__/lucide-react.js',
+    '^lucide-react/dist/(.*)$': '<rootDir>/__mocks__/lucide-react.js',
   },
   testEnvironment: 'jest-environment-jsdom',
+  transformIgnorePatterns: [
+    'node_modules/(?!(lucide-react|@next|next|@swc)/)',
+  ],
   collectCoverageFrom: [
     'src/**/*.{js,jsx,ts,tsx}',
     '!src/**/*.d.ts',
