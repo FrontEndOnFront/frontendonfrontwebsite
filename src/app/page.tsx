@@ -295,7 +295,7 @@ export default function LandingPage() {
                 <FadeInSection delay="sm">
                   <div className="space-y-6">
                     <Badge className={badgeVariants({ variant: "brand" })}>
-                      Let's Work Together
+                      Let&apos;s Work Together
                     </Badge>
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-white">
                       Ready to Transform Your Business?

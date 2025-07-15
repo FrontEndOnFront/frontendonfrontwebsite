@@ -1,16 +1,17 @@
 import { render, screen } from '@testing-library/react'
 import { ServiceCard } from '../ServiceCard'
 import React from 'react'
+import { LucideIcon } from 'lucide-react'
 
 // Create a proper mock icon that matches the LucideIcon type
 const MockIcon = React.forwardRef<SVGSVGElement, React.SVGProps<SVGSVGElement>>((props, ref) => (
   <svg {...props} ref={ref} data-testid="mock-icon" role="presentation" />
-))
+)) as LucideIcon
 MockIcon.displayName = 'MockIcon'
 
 describe('ServiceCard Component', () => {
   const mockProps = {
-    icon: MockIcon as any, // Type assertion to match LucideIcon
+    icon: MockIcon,
     title: 'Full-Stack Web Applications',
     description: 'Custom web applications built with modern frameworks like React, Next.js, and Node.js. Scalable, secure, and optimized for performance.',
   }
