@@ -20,9 +20,6 @@ jest.mock('next/link', () => {
   }
 })
 
-jest.mock('@/components/ui/button', () => ({
-  Button: ({ children, ...props }) => React.createElement('button', props, children),
-}))
 
 // Mock next/router
 jest.mock('next/router', () => ({

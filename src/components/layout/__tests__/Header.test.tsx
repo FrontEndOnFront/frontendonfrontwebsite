@@ -1,64 +1,33 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
+import { Header } from '../Header'
+import { Footer } from '../Footer'
 
-// Create a simplified version of Header for testing core functionality
-function SimpleHeader() {
-  return (
-    <header role="banner" className="header">
-      <div className="logo">
-        <span>FrontEndonFront</span>
-      </div>
-      <nav>
-        <a href="#services">Services</a>
-        <a href="#clients">Our Clients</a>
-        <a href="#process">Process</a>
-        <a href="#contact">Contact</a>
-      </nav>
-      <button>Get Free Consultation</button>
-      <button aria-label="Toggle mobile menu">☰</button>
-    </header>
-  )
-}
-
-describe('Header Component (Simplified Tests)', () => {
-  it('renders the company logo and name', () => {
-    render(<SimpleHeader />)
-    
-    expect(screen.getByText('FrontEndonFront')).toBeInTheDocument()
-    expect(screen.getByRole('banner')).toBeInTheDocument()
+describe('Header', () => {
+  it('renders the logo and main navigation', () => {
+    render(<Header />)
+    expect(screen.getByLabelText('FrontEndonFront home')).toHaveAttribute('href', '/')
+    const nav = screen.getByRole('navigation', { name: 'Main' })
+    for (const label of ['Services', 'Industries', 'About', 'Contact']) {
+      expect(within(nav).getByRole('link', { name: label })).toBeInTheDocument()
+    }
+    expect(within(nav).getByRole('link', { name: /Automotive/ })).toHaveAttribute('href', '/industries/automotive/')
   })
 
-  it('renders desktop navigation links', () => {
-    render(<SimpleHeader />)
-    
-    expect(screen.getByRole('link', { name: 'Services' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Our Clients' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Process' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Contact' })).toBeInTheDocument()
-  })
-
-  it('renders the CTA button', () => {
-    render(<SimpleHeader />)
-    
-    expect(screen.getByRole('button', { name: 'Get Free Consultation' })).toBeInTheDocument()
-  })
-
-  it('renders mobile menu toggle button', () => {
-    render(<SimpleHeader />)
-    
-    expect(screen.getByRole('button', { name: 'Toggle mobile menu' })).toBeInTheDocument()
-  })
-
-  it('has proper semantic structure', () => {
-    render(<SimpleHeader />)
-    
-    // Check for header element
-    expect(screen.getByRole('banner')).toBeInTheDocument()
-    
-    // Check navigation is present
-    expect(screen.getByRole('navigation')).toBeInTheDocument()
+  it('toggles the mobile menu', () => {
+    render(<Header />)
+    const toggle = screen.getByRole('button', { name: 'Toggle mobile menu' })
+    expect(screen.queryByRole('navigation', { name: 'Mobile' })).not.toBeInTheDocument()
+    fireEvent.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    expect(screen.getByRole('navigation', { name: 'Mobile' })).toBeInTheDocument()
   })
 })
 
-// TODO: Once dependency chain issues are resolved, restore full Header component tests
-// The core Jest setup is working perfectly (proven by ServiceCard tests)
-// This is a temporary solution to maintain test coverage while addressing complex dependencies 
+describe('Footer', () => {
+  it('shows Canadian ownership and both regions', () => {
+    render(<Footer />)
+    expect(screen.getByText('Canadian-owned and operated')).toBeInTheDocument()
+    expect(screen.getByText('British Columbia')).toBeInTheDocument()
+    expect(screen.getByText('Toronto')).toBeInTheDocument()
+  })
+})

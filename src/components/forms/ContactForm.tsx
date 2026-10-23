@@ -1,140 +1,97 @@
-"use client"
-
-import { Button } from "@/components/ui/button"
-import { buttonVariants } from "@/lib/design-system"
-import { Calendar } from "lucide-react"
+import { CalendarCheck } from "lucide-react"
+import { industries } from "@/lib/industries"
+import { services } from "@/lib/services"
+import { site } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
-const serviceOptions = [
-  "Full-Stack Web Application",
-  "AI Consulting & Integration", 
-  "Software Modernization",
-  "Rapid Development",
-  "Small Business Solutions",
-  "Deployment & Maintenance",
-  "Other"
-]
+const field =
+  "w-full rounded-xl border-2 border-line bg-paper px-3.5 py-2.5 text-ink placeholder:text-muted/60 focus:border-brand focus:outline-none"
+const label = "mb-1.5 block text-sm font-medium text-ink-soft"
 
-interface ContactFormProps {
-  className?: string
-}
-
-export function ContactForm({ className }: ContactFormProps) {
+export function ContactForm({ className }: { className?: string }) {
   return (
-    <div className={cn("bg-gray-900 p-8 rounded-xl border border-gray-800", className)}>
-      <h3 className="text-xl font-bold text-white mb-6">Schedule Your Free Consultation</h3>
-      <form 
-        action="https://formspree.io/f/mqababed"
-        method="POST"
-        className="space-y-4"
-      >
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div className="space-y-2">
-            <label htmlFor="name" className="text-sm font-medium text-gray-300">
-              Full Name
-            </label>
-            <input
-              id="name"
-              name="name"
-              required
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="John Smith"
-            />
-          </div>
-          <div className="space-y-2">
-            <label htmlFor="company" className="text-sm font-medium text-gray-300">
-              Company
-            </label>
-            <input
-              id="company"
-              name="company"
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="Your Company"
-            />
-          </div>
-        </div>
+    <form
+      action={site.formAction}
+      method="POST"
+      className={cn(
+        "rounded-3xl border-2 border-ink bg-white p-6 text-ink shadow-[8px_8px_0_var(--color-sun)] sm:p-8",
+        className
+      )}
+    >
+      <h3 className="text-xl font-bold">Book your free consultation</h3>
+      <p className="mt-1 text-sm text-muted">We reply within one business day.</p>
+      <input type="hidden" name="_subject" value="New website enquiry" />
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium text-gray-300">
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="john@example.com"
-            />
-          </div>
-          <div className="space-y-2">
-            <label htmlFor="phone" className="text-sm font-medium text-gray-300">
-              Phone
-            </label>
-            <input
-              id="phone"
-              name="phone"
-              className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
-              placeholder="(123) 456-7890"
-            />
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          <label htmlFor="service" className="text-sm font-medium text-gray-300">
-            Service Interested In
+      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        <div>
+          <label htmlFor="name" className={label}>
+            Full name
           </label>
-          <select
-            id="service"
-            name="service"
-            required
-            className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
-          >
-            <option value="">Select a service...</option>
-            {serviceOptions.map((service) => (
-              <option key={service} value={service}>
-                {service}
-              </option>
+          <input id="name" name="name" required autoComplete="name" className={field} placeholder="Jordan Lee" />
+        </div>
+        <div>
+          <label htmlFor="company" className={label}>
+            Company
+          </label>
+          <input id="company" name="company" autoComplete="organization" className={field} placeholder="Your company" />
+        </div>
+        <div>
+          <label htmlFor="email" className={label}>
+            Email
+          </label>
+          <input id="email" name="email" type="email" required autoComplete="email" className={field} placeholder="you@company.ca" />
+        </div>
+        <div>
+          <label htmlFor="phone" className={label}>
+            Phone
+          </label>
+          <input id="phone" name="phone" type="tel" autoComplete="tel" className={field} placeholder="(604) 555-0123" />
+        </div>
+        <div>
+          <label htmlFor="service" className={label}>
+            What do you need?
+          </label>
+          <select id="service" name="service" required className={field} defaultValue="">
+            <option value="" disabled>
+              Choose a service
+            </option>
+            {services.map((service) => (
+              <option key={service.slug}>{service.name}</option>
             ))}
+            <option>Full-service: a bit of everything</option>
+            <option>Not sure yet</option>
           </select>
         </div>
-
-        <div className="space-y-2">
-          <label htmlFor="message" className="text-sm font-medium text-gray-300">
-            Project Details
+        <div>
+          <label htmlFor="industry" className={label}>
+            Industry
           </label>
-          <textarea
-            id="message"
-            name="message"
-            rows={4}
-            required
-            className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
-            placeholder="Tell us about your project..."
-          ></textarea>
+          <select id="industry" name="industry" className={field} defaultValue="">
+            <option value="">Choose an industry</option>
+            {industries.map((industry) => (
+              <option key={industry.slug}>{industry.name}</option>
+            ))}
+            <option>Other</option>
+          </select>
         </div>
+      </div>
 
-        <div className="flex items-center space-x-2">
-          <input
-            type="checkbox"
-            id="consent"
-            name="consent"
-            required
-            className="w-4 h-4 border-gray-700 rounded text-blue-600 focus:ring-blue-600"
-          />
-          <label htmlFor="consent" className="text-sm text-gray-300">
-            I agree to be contacted about my inquiry
-          </label>
-        </div>
+      <div className="mt-4">
+        <label htmlFor="message" className={label}>
+          Project details
+        </label>
+        <textarea id="message" name="message" rows={4} required className={field} placeholder="Tell us about your goals, timeline and budget…" />
+      </div>
 
-        <Button 
-          type="submit" 
-          className={cn(buttonVariants({ variant: "primary", size: "lg" }), "w-full")}
-        >
-          Schedule Consultation
-          <Calendar className="ml-2 h-4 w-4" />
-        </Button>
-      </form>
-    </div>
+      <label className="mt-4 flex items-start gap-2.5 text-sm text-ink-soft">
+        <input type="checkbox" name="consent" required className="mt-0.5 h-4 w-4 accent-brand" />
+        I agree to be contacted about my enquiry.
+      </label>
+
+      <button type="submit" className="btn btn-primary mt-6 w-full">
+        Book my consultation
+        <CalendarCheck className="h-4 w-4" />
+      </button>
+    </form>
   )
-} 
+}

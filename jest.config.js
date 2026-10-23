@@ -26,9 +26,9 @@ const customJestConfig = {
     '!src/**/*.stories.{js,jsx,ts,tsx}',
     '!src/**/*.test.{js,jsx,ts,tsx}',
     '!src/**/__tests__/**',
-    '!src/app/layout.tsx', // Next.js layout file
-    '!src/app/page.tsx', // Main page file - focus on components first
+    '!src/app/**', // Next.js routes are covered by the static build
     '!src/lib/data.ts', // Static data file
+    '!src/components/world/**/*.tsx', // WebGL scene, verified visually; its math lives in geometry.ts and is tested
   ],
   coverageThreshold: {
     global: {
