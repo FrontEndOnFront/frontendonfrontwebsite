@@ -1,5 +1,6 @@
 [build]
-  publish = ".next"
+  # next.config.ts uses output: "export", which writes the static site to out/
+  publish = "out"
   command = "npm run build"
 
 [build.environment]
@@ -18,11 +19,7 @@
 [context.branch-deploy]
   command = "npm run build"
 
-# Redirects and rewrites
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# Redirects live in public/_redirects. Unknown paths fall through to out/404.html.
 
 # Headers for security and performance
 [[headers]]
