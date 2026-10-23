@@ -1,125 +1,114 @@
 "use client"
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { buttonVariants, iconContainerVariants } from "@/lib/design-system"
-import { Code, Menu, X } from "lucide-react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { ChevronDown, Menu, X } from "lucide-react"
+import { industries } from "@/lib/industries"
+import { services, stopNumber } from "@/lib/services"
+import { navigation } from "@/lib/site"
 import { cn } from "@/lib/utils"
+import { Logo } from "./Logo"
 
-const navigationItems = [
-  { href: "#services", label: "Services" },
-  { href: "#clients", label: "Our Clients" },
-  { href: "#process", label: "Process" },
-  { href: "#contact", label: "Contact" },
-]
+const menus: Record<string, { href: string; label: string; badge?: string }[]> = {
+  "/services/": services.map((s, i) => ({ href: `/services/${s.slug}/`, label: s.name, badge: stopNumber(i) })),
+  "/industries/": industries.map((ind) => ({ href: `/industries/${ind.slug}/`, label: ind.name })),
+}
 
 export function Header() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [open, setOpen] = useState(false)
+  const pathname = usePathname()
 
-  const scrollToContact = () => {
-    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })
-    setIsMobileMenuOpen(false)
-  }
-
-  const handleNavClick = (href: string) => {
-    setIsMobileMenuOpen(false)
-    // Small delay to allow menu close animation
-    setTimeout(() => {
-      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" })
-    }, 100)
-  }
+  useEffect(() => setOpen(false), [pathname])
 
   return (
-    <>
-      <header className="sticky top-0 z-50 w-full border-b border-gray-800 bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-gray-950/60 relative">
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <div className={cn(iconContainerVariants({ variant: "primary", size: "sm" }))}>
-              <Code className="h-5 w-5" />
-            </div>
-            <span className="text-xl font-bold text-white">FrontEndonFront</span>
-          </div>
+    <header className="sticky top-0 z-50 border-b border-line bg-gray-950/95 backdrop-blur-md">
+      <div className="container-page flex h-16 items-center justify-between">
+        <Logo />
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-sm font-medium text-gray-300 hover:text-blue-400 transition-colors"
-                onClick={(e) => {
-                  e.preventDefault()
-                  handleNavClick(item.href)
-                }}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
+        <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
+          {navigation.map((item) => {
+            const submenu = menus[item.href]
+            const current = pathname?.startsWith(item.href)
+            return (
+              <div key={item.href} className="group relative">
+                <Link
+                  href={item.href}
+                  className={cn(
+                    "inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-ink-soft transition-colors hover:bg-gray-800 hover:text-ink",
+                    current && "text-ink"
+                  )}
+                  aria-current={current ? "page" : undefined}
+                >
+                  {item.label}
+                  {submenu && <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:rotate-180" />}
+                </Link>
+                {submenu && (
+                  <div className="invisible absolute left-0 top-full pt-2 opacity-0 transition-all group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+                    <ul className="w-72 rounded-xl border border-gray-800 bg-gray-900 p-2 shadow-lg">
+                      {submenu.map((link) => (
+                        <li key={link.href}>
+                          <Link
+                            href={link.href}
+                            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-ink-soft hover:bg-gray-800 hover:text-ink"
+                          >
+                            {link.badge && <span className="font-pixel text-[10px] text-brand">{link.badge}</span>}
+                            {link.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </nav>
 
-          {/* Desktop CTA + Mobile Menu Button */}
-          <div className="flex items-center space-x-4">
-            <Button
-              size="sm"
-              className={cn(buttonVariants({ variant: "primary", size: "sm" }), "hidden md:inline-flex")}
-              onClick={scrollToContact}
-            >
-              Get Free Consultation
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="md:hidden text-gray-300 hover:bg-gray-800"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Toggle mobile menu"
-            >
-              {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-            </Button>
-          </div>
+        <div className="flex items-center gap-3">
+          <Link href="/contact/" className="btn btn-primary hidden !px-4 !py-2 md:inline-flex">
+            Free consultation
+          </Link>
+          <button
+            type="button"
+            className="rounded-lg border border-gray-800 bg-gray-900 p-2 md:hidden"
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle mobile menu"
+            aria-expanded={open}
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
-      </header>
+      </div>
 
-      {/* Mobile Navigation Overlay */}
-      {isMobileMenuOpen && (
-        <>
-          {/* Backdrop */}
-          <div
-            className="fixed inset-0 bg-black/50 z-40 md:hidden"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
-          
-          {/* Mobile Menu */}
-          <div className="fixed top-16 left-0 right-0 bg-gray-950 border-b border-gray-800 z-50 md:hidden animate-in slide-in-from-top duration-200">
-            <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
-              <nav className="flex flex-col space-y-4">
-                {navigationItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="text-base font-medium text-gray-300 hover:text-blue-400 transition-colors py-2"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      handleNavClick(item.href)
-                    }}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-                <div className="pt-4 border-t border-gray-800">
-                  <Button
-                    className={cn(buttonVariants({ variant: "primary", size: "default" }), "w-full")}
-                    onClick={scrollToContact}
-                  >
-                    Get Free Consultation
-                  </Button>
-                </div>
-              </nav>
-            </div>
+      {open && (
+        <nav className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-line bg-paper md:hidden" aria-label="Mobile">
+          <div className="container-page space-y-6 py-6">
+            {navigation.map((item) => (
+              <div key={item.href}>
+                <Link href={item.href} className="text-lg font-semibold">
+                  {item.label}
+                </Link>
+                {menus[item.href] && (
+                  <ul className="mt-2 grid grid-cols-1 gap-1 sm:grid-cols-2">
+                    {menus[item.href].map((link) => (
+                      <li key={link.href}>
+                        <Link href={link.href} className="flex items-center gap-2 py-1.5 text-sm text-muted">
+                          {link.badge && <span className="font-pixel text-[10px] text-brand">{link.badge}</span>}
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+            <Link href="/contact/" className="btn btn-primary w-full">
+              Book a free consultation
+            </Link>
           </div>
-        </>
+        </nav>
       )}
-    </>
+    </header>
   )
-} 
+}
