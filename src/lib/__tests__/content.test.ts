@@ -1,5 +1,6 @@
 import { industries } from '../industries'
 import { getService, getServiceIndex, services, stopNumber } from '../services'
+import { toolGroups, toolsForService } from '../tools'
 
 describe('services content', () => {
   it('has a unique slug for every stop on the loop', () => {
@@ -9,7 +10,7 @@ describe('services content', () => {
 
   it('covers the full-service offering', () => {
     expect(services.map((s) => s.slug)).toEqual(
-      expect.arrayContaining(['seo', 'google-ads', 'digital-marketing', 'ecommerce', 'web-development', 'crm-custom-software', 'branding-design'])
+      expect.arrayContaining(['seo', 'digital-marketing', 'ecommerce', 'web-development', 'crm-custom-software', 'branding-design', 'it-support'])
     )
   })
 
@@ -38,5 +39,20 @@ describe('industries content', () => {
     industries.forEach((industry) => {
       industry.services.forEach((slug) => expect(getService(slug)).toBeDefined())
     })
+  })
+})
+
+describe('tools content', () => {
+  it('only tags tools with services that exist', () => {
+    toolGroups.forEach((group) => {
+      group.tools.forEach((tool) => {
+        expect(tool.services.length).toBeGreaterThan(0)
+        tool.services.forEach((slug) => expect(getService(slug)).toBeDefined())
+      })
+    })
+  })
+
+  it('lists tools for every service', () => {
+    services.forEach((service) => expect(toolsForService(service.slug).length).toBeGreaterThan(0))
   })
 })

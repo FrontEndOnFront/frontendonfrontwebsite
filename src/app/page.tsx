@@ -3,6 +3,7 @@ import Image from "next/image"
 import { ArrowRight, CodeXml, MapPin } from "lucide-react"
 import { ContactSection, IndustryCard, SectionHeading, ServiceCard } from "@/components/common/sections"
 import { MapleLeaf } from "@/components/common/MapleLeaf"
+import { ToolGrid, ToolMarquee } from "@/components/common/Tools"
 import { World } from "@/components/world/World"
 import { clients, processSteps, testimonial } from "@/lib/data"
 import { industries } from "@/lib/industries"
@@ -42,8 +43,8 @@ export default function HomePage() {
               <span className="text-brand">One line, every stop.</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted text-pretty sm:text-xl">
-              {site.name} is a full-service digital agency. We handle SEO, Google Ads, full-funnel marketing,
-              e-commerce, web development, CRM and custom applications, and design, for construction, retail, real
+              {site.name} is a full-service digital agency. We handle SEO, Google Ads and digital marketing,
+              e-commerce, web development, CRM and custom applications, IT support and design, for construction, retail, real
               estate and automotive businesses across Canada.
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
@@ -115,6 +116,25 @@ export default function HomePage() {
               <IndustryCard key={industry.slug} industry={industry} />
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="border-t border-gray-800 bg-gray-900 py-20 sm:py-28">
+        <div className="container-page">
+          <SectionHeading
+            eyebrow="Tools & platforms"
+            title="We build on the platforms you already trust"
+            intro="From Google and Shopify to AWS, MongoDB and Microsoft 365, we pick the right tool for the job and make the pieces work together."
+          />
+        </div>
+        <div className="mt-12">
+          <ToolMarquee />
+        </div>
+        <div className="container-page mt-12">
+          <ToolGrid />
+          <p className="mt-6 text-sm text-muted">
+            Product names and logos belong to their owners and show the platforms we work with. They do not imply endorsement.
+          </p>
         </div>
       </section>
 

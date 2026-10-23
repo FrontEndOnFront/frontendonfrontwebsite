@@ -330,14 +330,14 @@ function SeoStation() {
   )
 }
 
-// 05 · Google Ads & PPC: Account audit → Tracking first → Launch → Optimize weekly
-function AdsStation() {
+// 05 · Digital Marketing & Google Ads: Audit & plan → Produce → Launch → Optimize & report
+function MarketingStation() {
   const face = useLambert(GRAY_900)
   const bulbMaterials = useMemo(
-    () => Array.from({ length: 6 }, () => new THREE.MeshLambertMaterial({ color: GOLD, emissive: GOLD, emissiveIntensity: 0 })),
+    () => Array.from({ length: 5 }, () => new THREE.MeshLambertMaterial({ color: GOLD, emissive: GOLD, emissiveIntensity: 0 })),
     []
   )
-  const beacon = useLambert(GREEN, true)
+  const flash = useLambert(WHITE, true)
   const cursor = useRef<THREE.Group>(null)
 
   useTimeline((t) => {
@@ -346,109 +346,36 @@ function AdsStation() {
     bulbMaterials.forEach((m, i) => {
       m.emissiveIntensity = live && Math.floor(t * 6) % bulbMaterials.length === i ? 1.4 : 0.05
     })
-    beacon.emissiveIntensity = Math.sin(t * 6) > 0 ? 1.4 : 0.2
+    const produce = span(t, 1.0, 1.05) > 0 && span(t, 2.0, 2.05) < 1
+    flash.emissiveIntensity = produce && (t * 1.6) % 1 < 0.12 ? 2 : 0
     if (cursor.current) {
       const k = (t * 0.9) % 1
-      cursor.current.position.z = 0.9 - Math.sin(k * Math.PI) * 0.35
+      cursor.current.position.z = -Math.sin(k * Math.PI) * 0.3
     }
   })
 
-  const dotPath = (offset: number) => (t: number) => {
-    if (span(t, 1.3, 1.35) === 0 || fade(t) === 0) return null
-    const k = (t * 0.6 + offset) % 1
-    return [lerp(0.95, 1.85, k), lerp(1.7, 0.75, k), 0.2] as [number, number, number]
-  }
-
-  return (
-    <group>
-      <Vox p={[-0.95, 1.05, -0.25]} s={[0.16, 2.1, 0.16]} c={WOOD} />
-      <Vox p={[0.95, 1.05, -0.25]} s={[0.16, 2.1, 0.16]} c={WOOD} />
-      <Vox p={[0, 2.4, -0.3]} s={[2.8, 1.5, 0.15]} c={GRAY_800} />
-      <Vox p={[0, 2.4, -0.2]} s={[2.6, 1.3, 0.06]} material={face} />
-      {bulbMaterials.map((m, i) => (
-        <Vox key={i} p={[-1.25 + i * 0.5, 3.2, -0.25]} s={[0.13, 0.13, 0.13]} material={m} />
-      ))}
-      {/* Account audit */}
-      <Mover path={(t) => (span(t, 0.05, 0.1) > 0 && span(t, 0.95, 1) < 1 ? [lerp(-1.1, 1.1, span(t, 0.1, 0.9)), 2.4, 0.5] : null)}>
-        <Magnifier />
-      </Mover>
-      {/* Tracking first: a tag goes on and data starts flowing to the counter */}
-      <Pop at={1.05} p={[0.95, 1.6, -0.1]}>
-        <Vox p={[0, 0.1, 0]} s={[0.24, 0.2, 0.2]} c={GRAY_900} />
-        <Vox p={[0, 0.3, 0]} s={[0.04, 0.2, 0.04]} c={GRAY_300} />
-        <Vox p={[0, 0.43, 0]} s={[0.1, 0.1, 0.1]} material={beacon} />
-      </Pop>
-      <Pop at={1.2} p={[1.9, 0, 0.2]}>
-        <Vox p={[0, 0.35, 0]} s={[0.55, 0.7, 0.45]} c={GRAY_800} />
-        <Vox p={[0, 0.45, 0.23]} s={[0.35, 0.2, 0.02]} c={GREEN} />
-      </Pop>
-      {[0, 0.33, 0.66].map((o) => (
-        <Mover key={o} path={dotPath(o)}>
-          <Vox p={[0, 0, 0]} s={[0.1, 0.1, 0.1]} c={GREEN} />
-        </Mover>
-      ))}
-      {/* Launch: the ad goes live and the clicks come in */}
-      <Pop at={2.05} p={[0, 2.4, -0.15]}>
-        <PixelText text="AD" size={0.16} c={WHITE} />
-      </Pop>
-      <Pop at={2.3} p={[0.5, 1.3, 0.9]}>
-        <group ref={cursor}>
-          <PixelArt rows={CURSOR} size={0.1} depth={0.08} c={WHITE} />
-        </group>
-      </Pop>
-      {/* Optimize weekly: results climb */}
-      <Grow from={3.0} to={3.25} p={[-1.85, 0, 0.6]} s={[0.25, 0.4, 0.25]} c={BLUE_LIGHT} />
-      <Grow from={3.2} to={3.45} p={[-1.55, 0, 0.6]} s={[0.25, 0.7, 0.25]} c={BLUE} />
-      <Grow from={3.4} to={3.65} p={[-1.25, 0, 0.6]} s={[0.25, 1.05, 0.25]} c={GREEN} />
-      <Pop at={3.65} p={[-1.55, 1.5, 0.6]}>
-        <PixelArt rows={ARROW_UP} size={0.08} c={GREEN} />
-      </Pop>
-    </group>
-  )
-}
-
-// 06 · Full-Service Marketing: Plan → Produce → Distribute → Report
-function MarketingStation() {
-  const rings = useMemo(
-    () =>
-      [0, 1, 2].map(() => new THREE.MeshBasicMaterial({ color: BLUE_LIGHT, transparent: true, opacity: 0, depthWrite: false })),
-    []
-  )
-  const ringGeometry = useMemo(() => new THREE.TorusGeometry(1, 0.05, 4, 28), [])
-  const ringMeshes = useRef<(THREE.Mesh | null)[]>([])
-  const flash = useLambert(WHITE, true)
-
-  useTimeline((t) => {
-    const on = span(t, 2.0, 2.05) * fade(t)
-    ringMeshes.current.forEach((mesh, i) => {
-      if (!mesh) return
-      const a = (t * 0.6 + i / 3) % 1
-      mesh.scale.setScalar(0.3 + a * 2.2)
-      rings[i].opacity = (1 - a) * on
-    })
-    const produce = span(t, 1.0, 1.05) > 0 && span(t, 2.0, 2.05) < 1
-    flash.emissiveIntensity = produce && (t * 1.6) % 1 < 0.12 ? 2 : 0
-  })
-
-  const sendPath = (dx: number, offset: number) => (t: number) => {
-    if (span(t, 2.15, 2.2) === 0 || fade(t) === 0) return null
+  const heartPath = (dx: number, offset: number) => (t: number) => {
+    if (span(t, 2.3, 2.35) === 0 || fade(t) === 0) return null
     const k = (t * 0.5 + offset) % 1
-    return [1.3 + dx * k * 1.5, 3.3 + k * 0.8, -0.3 + k * 1.2] as [number, number, number]
+    return [0.75 + dx * k, 3.1 + k * 0.9, -0.2 + k * 0.8] as [number, number, number]
   }
 
   return (
     <group>
-      {/* Plan: the content calendar fills up */}
+      {/* Audit & plan: review the accounts, then fill the campaign calendar */}
       <Vox p={[-1.6, 0.6, -0.4]} s={[0.1, 1.2, 0.1]} c={WOOD} />
       <Vox p={[-1.6, 1.4, -0.38]} s={[1.2, 1.0, 0.08]} c={WHITE} />
       <Vox p={[-1.6, 1.86, -0.33]} s={[1.2, 0.12, 0.04]} c={BLUE} />
+      <Mover path={(t) => (span(t, 0.05, 0.1) > 0 && span(t, 0.5, 0.55) < 1 ? [lerp(-2.2, -1.0, span(t, 0.1, 0.5)), 1.4, 0.3] : null)}>
+        <Magnifier />
+      </Mover>
       {Array.from({ length: 9 }, (_, i) => (
-        <Pop key={i} at={0.1 + i * 0.09} p={[-1.95 + (i % 3) * 0.35, 1.6 - Math.floor(i / 3) * 0.27, -0.33]}>
+        <Pop key={i} at={0.5 + i * 0.05} p={[-1.95 + (i % 3) * 0.35, 1.6 - Math.floor(i / 3) * 0.27, -0.33]}>
           <Vox p={[0, 0, 0]} s={[0.26, 0.18, 0.03]} c={[BLUE_LIGHT, GREEN, GOLD][i % 3]} />
         </Pop>
       ))}
-      {/* Produce: shoot the content */}
-      <Pop at={1.05} p={[-0.4, 0, 0.7]}>
+      {/* Produce: shoot the ads and the content */}
+      <Pop at={1.05} p={[-0.6, 0, 0.75]}>
         {[-0.15, 0.15].map((x) => (
           <Vox key={x} p={[x, 0.35, 0]} s={[0.05, 0.7, 0.05]} r={[0, 0, x > 0 ? 0.2 : -0.2]} c={GRAY_700} />
         ))}
@@ -457,45 +384,135 @@ function MarketingStation() {
         <Vox p={[-0.12, 0.98, 0]} s={[0.12, 0.06, 0.12]} material={flash} />
       </Pop>
       {[BLUE_LIGHT, GREEN, GOLD].map((c, i) => (
-        <Pop key={c} at={1.4 + i * 0.25} p={[0.2 + i * 0.4, 0, 1.1]}>
+        <Pop key={c} at={1.4 + i * 0.25} p={[0.1 + i * 0.4, 0, 1.1]}>
           <Vox p={[0, 0.2, 0]} s={[0.32, 0.4, 0.05]} c={c} />
         </Pop>
       ))}
-      {/* Distribute: broadcast everywhere */}
-      {[0, 1, 2, 3].map((k) => (
-        <Vox key={k} p={[1.3, 0.42 + k * 0.84, -0.3]} s={[0.7 - k * 0.12, 0.84, 0.7 - k * 0.12]} c={k % 2 ? WHITE : BLUE} />
+      {/* Launch: the billboard goes live, the clicks and the likes come in */}
+      <Vox p={[0.05, 1.0, -0.3]} s={[0.14, 2.0, 0.14]} c={WOOD} />
+      <Vox p={[1.45, 1.0, -0.3]} s={[0.14, 2.0, 0.14]} c={WOOD} />
+      <Vox p={[0.75, 2.3, -0.35]} s={[2.1, 1.2, 0.15]} c={GRAY_800} />
+      <Vox p={[0.75, 2.3, -0.25]} s={[1.9, 1.0, 0.06]} material={face} />
+      {bulbMaterials.map((m, i) => (
+        <Vox key={i} p={[-0.05 + i * 0.4, 2.98, -0.3]} s={[0.12, 0.12, 0.12]} material={m} />
       ))}
-      <Vox p={[1.3, 3.5, -0.3]} s={[0.22, 0.22, 0.22]} c={BLUE_LIGHT} />
-      {rings.map((m, i) => (
-        <mesh
-          key={i}
-          ref={(el) => {
-            ringMeshes.current[i] = el
-          }}
-          geometry={ringGeometry}
-          material={m}
-          position={[1.3, 3.5, -0.3]}
-          rotation={[Math.PI / 2, 0, 0]}
-        />
-      ))}
-      {[-1, 0.2, 1].map((dx, i) => (
-        <Mover key={dx} path={sendPath(dx, i / 3)}>
+      <Pop at={2.05} p={[0.75, 2.3, -0.2]}>
+        <PixelText text="AD" size={0.14} c={WHITE} />
+      </Pop>
+      <Pop at={2.2} p={[1.2, 1.95, 0.05]}>
+        <group ref={cursor}>
+          <PixelArt rows={CURSOR} size={0.08} depth={0.06} c={WHITE} />
+        </group>
+      </Pop>
+      {[-0.8, 0.2, 0.9].map((dx, i) => (
+        <Mover key={dx} path={heartPath(dx, i / 3)}>
           <PixelArt rows={HEART} size={0.06} c={i === 1 ? GREEN : BLUE_LIGHT} />
         </Mover>
       ))}
-      {/* Report: the dashboard shows the return */}
-      <Pop at={3.0} p={[-0.1, 1.6, -0.4]}>
-        <Vox p={[0, 0.4, 0]} s={[1.0, 0.8, 0.06]} c={GRAY_900} />
-        <Vox p={[0, -0.25, 0]} s={[0.06, 0.6, 0.06]} c={GRAY_700} />
+      {/* Optimize & report: tune the spend, the results climb */}
+      <Grow from={3.0} to={3.25} p={[1.35, 0, 0.75]} s={[0.25, 0.4, 0.25]} c={BLUE_LIGHT} />
+      <Grow from={3.2} to={3.45} p={[1.65, 0, 0.75]} s={[0.25, 0.7, 0.25]} c={BLUE} />
+      <Grow from={3.4} to={3.65} p={[1.95, 0, 0.75]} s={[0.25, 1.05, 0.25]} c={GREEN} />
+      <Pop at={3.65} p={[1.65, 1.45, 0.75]}>
+        <PixelArt rows={ARROW_UP} size={0.08} c={GREEN} />
       </Pop>
-      <Grow from={3.15} to={3.4} p={[-0.4, 1.7, -0.35]} s={[0.16, 0.25, 0.03]} c={BLUE_LIGHT} />
-      <Grow from={3.3} to={3.55} p={[-0.1, 1.7, -0.35]} s={[0.16, 0.42, 0.03]} c={BLUE} />
-      <Grow from={3.45} to={3.7} p={[0.2, 1.7, -0.35]} s={[0.16, 0.6, 0.03]} c={GREEN} />
     </group>
   )
 }
 
-// 07 · CRM & Custom Applications: Map the workflow → Prototype → Build in phases → Train & support
+// 08 · IT Support & Managed IT: Assess → Secure → Set up & migrate → Support
+function ItStation() {
+  const leds = useMemo(
+    () => Array.from({ length: 4 }, () => new THREE.MeshLambertMaterial({ color: RED, emissive: RED, emissiveIntensity: 0.6 })),
+    []
+  )
+  const screen = useLambert(GRAY_900)
+
+  useTimeline((t) => {
+    const secured = span(t, 1.4, 1.42) * fade(t) > 0
+    leds.forEach((m, i) => {
+      const c = secured ? GREEN : RED
+      m.color.set(c)
+      m.emissive.set(c)
+      m.emissiveIntensity = secured ? 0.4 + (Math.sin(t * 6 + i) > 0 ? 0.6 : 0) : 0.3 + Math.abs(Math.sin(t * 8)) * 0.7
+    })
+    screen.color.set(span(t, 2.4, 2.42) * fade(t) > 0 ? BLUE : GRAY_900)
+  })
+
+  const uploadPath = (offset: number) => (t: number) => {
+    if (span(t, 2.05, 2.1) === 0 || span(t, 2.95, 3) === 1 || fade(t) === 0) return null
+    const k = (t * 0.7 + offset) % 1
+    return [lerp(-1.4, 0.9, k), 1.75 + Math.sin(k * Math.PI) * 0.9, lerp(-0.2, -0.3, k)] as [number, number, number]
+  }
+
+  return (
+    <group>
+      {/* Assess: audit the network, devices and accounts */}
+      <Vox p={[-1.4, 0.8, -0.2]} s={[0.75, 1.6, 0.65]} c={GRAY_800} />
+      {leds.map((m, i) => (
+        <group key={i}>
+          <Vox p={[-1.4, 0.35 + i * 0.35, 0.14]} s={[0.6, 0.22, 0.02]} c={GRAY_900} />
+          <Vox p={[-1.6, 0.35 + i * 0.35, 0.16]} s={[0.07, 0.07, 0.03]} material={m} />
+        </group>
+      ))}
+      <Mover path={(t) => (span(t, 0.05, 0.1) > 0 && span(t, 0.95, 1) < 1 ? [-1.0, lerp(0.4, 1.7, span(t, 0.1, 0.9)), 0.6] : null)}>
+        <Magnifier />
+      </Mover>
+      {[0, 1].map((i) => (
+        <Pop key={i} at={0.4 + i * 0.25} until={1.4} p={[-1.85 + i * 0.9, 1.85 + i * 0.15, 0]}>
+          <Vox p={[0, 0, 0]} s={[0.08, 0.26, 0.08]} c={RED} />
+          <Vox p={[0, -0.22, 0]} s={[0.08, 0.08, 0.08]} c={RED} />
+        </Pop>
+      ))}
+      {/* Secure: lock it down, red turns green */}
+      <Pop at={1.1} p={[-0.6, 0, 0.6]}>
+        <Vox p={[0, 0.4, 0]} s={[0.5, 0.42, 0.18]} c={GOLD} />
+        <Vox p={[-0.16, 0.74, 0]} s={[0.07, 0.3, 0.1]} c={GRAY_300} />
+        <Vox p={[0.16, 0.74, 0]} s={[0.07, 0.3, 0.1]} c={GRAY_300} />
+        <Vox p={[0, 0.88, 0]} s={[0.39, 0.07, 0.1]} c={GRAY_300} />
+        <Vox p={[0, 0.4, 0.1]} s={[0.08, 0.16, 0.02]} c={GRAY_900} />
+      </Pop>
+      {/* Set up & migrate: data moves up to the cloud, the new workstation comes online */}
+      <Pop at={2.0} p={[1.1, 2.6, -0.3]}>
+        <Vox p={[0, 0, 0]} s={[1.0, 0.4, 0.5]} c={WHITE} />
+        <Vox p={[-0.2, 0.25, 0]} s={[0.45, 0.35, 0.45]} c={WHITE} />
+        <Vox p={[0.22, 0.18, 0]} s={[0.4, 0.3, 0.42]} c={GRAY_300} />
+      </Pop>
+      {[0, 0.33, 0.66].map((o) => (
+        <Mover key={o} path={uploadPath(o)}>
+          <Vox p={[0, 0, 0]} s={[0.14, 0.14, 0.14]} c={BLUE_LIGHT} />
+        </Mover>
+      ))}
+      <Vox p={[0.9, 0.45, 0.2]} s={[1.5, 0.08, 0.8]} c={WOOD} />
+      {[0.25, 1.55].map((x) => (
+        <Vox key={x} p={[x, 0.2, 0.2]} s={[0.08, 0.42, 0.7]} c={WOOD} />
+      ))}
+      <Pop at={2.3} p={[0.65, 0.49, 0.2]}>
+        <Vox p={[0, 0.02, 0.1]} s={[0.6, 0.04, 0.4]} c={GRAY_700} />
+        <Vox p={[0, 0.22, -0.1]} s={[0.6, 0.4, 0.04]} c={GRAY_700} />
+        <Vox p={[0, 0.22, -0.07]} s={[0.52, 0.32, 0.02]} material={screen} />
+      </Pop>
+      {/* Support: the help desk answers and closes the tickets */}
+      <Pop at={3.0} p={[1.3, 0, 0.75]}>
+        <Person shirt={BLUE} walking={false} />
+        <Vox p={[0, 0.9, 0]} s={[0.28, 0.05, 0.05]} c={GRAY_900} />
+        <Vox p={[0.13, 0.78, 0.08]} s={[0.05, 0.12, 0.12]} c={GRAY_900} />
+      </Pop>
+      {[0, 1, 2].map((i) => (
+        <Pop key={i} at={3.1 + i * 0.15} p={[1.95, 0.35 + i * 0.4, 0.5]}>
+          <Vox p={[0, 0, 0]} s={[0.36, 0.3, 0.04]} c={WHITE} />
+        </Pop>
+      ))}
+      {[0, 1, 2].map((i) => (
+        <Pop key={i} at={3.3 + i * 0.15} p={[1.95, 0.35 + i * 0.4, 0.54]}>
+          <PixelArt rows={CHECK} size={0.05} depth={0.03} c={GREEN} />
+        </Pop>
+      ))}
+    </group>
+  )
+}
+
+// 06 · CRM & Custom Applications: Map the workflow → Prototype → Build in phases → Train & support
 function CrmStation() {
   const ghost = useMemo(
     () => new THREE.MeshBasicMaterial({ color: BLUE_LIGHT, transparent: true, opacity: 0.18, depthWrite: false }),
@@ -585,7 +602,7 @@ function CrmStation() {
   )
 }
 
-// 08 · AI & Automation: Find the hours → Pilot → Scale → Monitor
+// 07 · AI & Automation: Find the hours → Pilot → Scale → Monitor
 function AiStation() {
   const hand = useRef<THREE.Group>(null)
   const clockFace = useMemo(() => new THREE.CylinderGeometry(0.45, 0.45, 0.1, 16), [])
@@ -669,9 +686,9 @@ export const stations: Record<string, ComponentType> = {
   "web-development": withSteps(WebDevStation),
   ecommerce: withSteps(EcommerceStation),
   seo: withSteps(SeoStation),
-  "google-ads": withSteps(AdsStation),
   "digital-marketing": withSteps(MarketingStation),
   "crm-custom-software": withSteps(CrmStation),
   "ai-automation": withSteps(AiStation),
+  "it-support": withSteps(ItStation),
 }
 

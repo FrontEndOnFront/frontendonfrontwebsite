@@ -40,8 +40,9 @@ export const industries: Industry[] = [
       "Job and lead tracking CRMs",
       "Recruiting pages for trades",
       "Vehicle and job-site signage",
+      "Office and job-site IT and networks",
     ],
-    services: ["seo", "google-ads", "crm-custom-software", "web-development", "branding-design"],
+    services: ["seo", "digital-marketing", "crm-custom-software", "web-development", "it-support"],
     caseStudy: "artistic-skylights",
   },
   {
@@ -67,7 +68,7 @@ export const industries: Industry[] = [
       "POS and inventory integrations",
       "Brand refreshes and packaging",
     ],
-    services: ["ecommerce", "google-ads", "digital-marketing", "branding-design", "seo"],
+    services: ["ecommerce", "digital-marketing", "branding-design", "seo", "it-support"],
     caseStudy: "mec",
   },
   {
@@ -93,7 +94,7 @@ export const industries: Industry[] = [
       "Lead nurture CRMs",
       "Property management portals",
     ],
-    services: ["web-development", "seo", "google-ads", "crm-custom-software", "ai-automation"],
+    services: ["web-development", "seo", "digital-marketing", "crm-custom-software", "ai-automation"],
   },
   {
     slug: "automotive",
@@ -117,8 +118,9 @@ export const industries: Industry[] = [
       "Google Vehicle Ads and local campaigns",
       "Customer and service CRMs",
       "Review and reputation programs",
+      "Dealership IT, networks and devices",
     ],
-    services: ["google-ads", "seo", "web-development", "ecommerce", "crm-custom-software"],
+    services: ["digital-marketing", "seo", "web-development", "ecommerce", "it-support"],
   },
 ]
 

@@ -3,10 +3,12 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ArrowLeft, ArrowRight, Check } from "lucide-react"
 import { ContactSection, SectionHeading } from "@/components/common/sections"
+import { ToolChip } from "@/components/common/Tools"
 import { World } from "@/components/world/World"
 import { industries } from "@/lib/industries"
 import { JsonLd, serviceSchema } from "@/lib/seo"
 import { getServiceIndex, services, stopNumber } from "@/lib/services"
+import { toolsForService } from "@/lib/tools"
 
 type Params = Promise<{ slug: string }>
 
@@ -34,6 +36,7 @@ export default async function ServicePage({ params }: { params: Params }) {
   const service = services[index]
   const previous = services[(index - 1 + services.length) % services.length]
   const next = services[(index + 1) % services.length]
+  const tools = toolsForService(service.slug)
   const relatedIndustries = industries.filter((industry) => industry.services.includes(service.slug))
   const Icon = service.icon
 
@@ -88,6 +91,18 @@ export default async function ServicePage({ params }: { params: Params }) {
               </div>
             ))}
           </div>
+          {tools.length > 0 && (
+            <div className="mt-12">
+              <h3 className="font-pixel text-xs uppercase tracking-widest text-muted">Tools we use</h3>
+              <ul className="mt-4 flex flex-wrap gap-2">
+                {tools.map((tool) => (
+                  <li key={tool.name}>
+                    <ToolChip tool={tool} />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </section>
 

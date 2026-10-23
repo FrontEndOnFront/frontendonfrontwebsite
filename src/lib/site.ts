@@ -3,7 +3,7 @@ export const site = {
   url: "https://frontendonfront.com",
   tagline: "Full-service digital agency. Canadian-owned and operated.",
   description:
-    "FrontEndonFront is a Canadian-owned, full-service digital agency serving BC and Toronto. SEO, Google Ads, full-funnel marketing, e-commerce, web development, CRM and custom software, and design for construction, retail, real estate and automotive businesses.",
+    "FrontEndonFront is a Canadian-owned, full-service digital agency serving BC and Toronto. SEO, Google Ads and digital marketing, e-commerce, web development, CRM and custom software, IT support and design for construction, retail, real estate and automotive businesses.",
   email: "hello@frontendonfront.com",
   phone: "+1 647-382-3188",
   phoneHref: "tel:+16473823188",
