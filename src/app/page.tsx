@@ -3,7 +3,7 @@ import Image from "next/image"
 import { ArrowRight, CodeXml, MapPin } from "lucide-react"
 import { ContactSection, IndustryCard, SectionHeading, ServiceCard } from "@/components/common/sections"
 import { MapleLeaf } from "@/components/common/MapleLeaf"
-import { ToolGrid, ToolMarquee } from "@/components/common/Tools"
+import { ToolMarquees } from "@/components/common/Tools"
 import { World } from "@/components/world/World"
 import { clients, processSteps, testimonial } from "@/lib/data"
 import { industries } from "@/lib/industries"
@@ -57,7 +57,9 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="relative mt-14 sm:mt-16">
+          <ToolMarquees className="mt-10" />
+
+          <div className="relative mt-10 sm:mt-12">
             <World mode="full" className="voxel-frame h-[380px] sm:h-[560px] lg:h-[640px]" />
             <p className="mt-6 text-center text-sm text-gray-400">
               Every service is a stop on the loop, and each stop acts out our four-step process. Drag to spin, tap a stop to step off.
@@ -116,25 +118,6 @@ export default function HomePage() {
               <IndustryCard key={industry.slug} industry={industry} />
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="border-t border-gray-800 bg-gray-900 py-20 sm:py-28">
-        <div className="container-page">
-          <SectionHeading
-            eyebrow="Tools & platforms"
-            title="We build on the platforms you already trust"
-            intro="From Google and Shopify to AWS, MongoDB and Microsoft 365, we pick the right tool for the job and make the pieces work together."
-          />
-        </div>
-        <div className="mt-12">
-          <ToolMarquee />
-        </div>
-        <div className="container-page mt-12">
-          <ToolGrid />
-          <p className="mt-6 text-sm text-muted">
-            Product names and logos belong to their owners and show the platforms we work with. They do not imply endorsement.
-          </p>
         </div>
       </section>
 

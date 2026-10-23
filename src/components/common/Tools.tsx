@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react"
-import { toolGroups, tools, type Tool } from "@/lib/tools"
+import { tools, type Tool } from "@/lib/tools"
 import { cn } from "@/lib/utils"
 
 /** A tool's logo and name. The mark is grey until hover, then takes the brand colour (lifted on very dark marks). */
@@ -32,15 +32,20 @@ export function ToolChip({ tool, className }: { tool: Tool; className?: string }
   )
 }
 
-/** Endless scrolling strip of every tool logo. */
-export function ToolMarquee() {
-  const row = [...tools, ...tools]
+/** Endless scrolling strip of tool logos. */
+export function ToolMarquee({ items = tools, reverse = false }: { items?: Tool[]; reverse?: boolean }) {
+  const row = [...items, ...items]
   return (
     <div
       className="relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_10%,black_90%,transparent)]"
       aria-hidden
     >
-      <div className="flex w-max animate-[marquee_60s_linear_infinite] gap-3 motion-reduce:animate-none hover:[animation-play-state:paused]">
+      <div
+        className={cn(
+          "flex w-max animate-[marquee_60s_linear_infinite] gap-3 pr-3 hover:[animation-play-state:paused] motion-reduce:animate-none",
+          reverse && "[animation-direction:reverse]"
+        )}
+      >
         {row.map((tool, i) => (
           <ToolChip key={`${tool.name}-${i}`} tool={tool} />
         ))}
@@ -49,22 +54,16 @@ export function ToolMarquee() {
   )
 }
 
-/** Tools grouped by what they are for. */
-export function ToolGrid() {
+/** Every tool in two rows that scroll in opposite directions. */
+export function ToolMarquees({ className }: { className?: string }) {
+  const half = Math.ceil(tools.length / 2)
   return (
-    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {toolGroups.map((group) => (
-        <div key={group.title} className="card p-6">
-          <h3 className="font-semibold text-white">{group.title}</h3>
-          <ul className="mt-4 flex flex-wrap gap-2">
-            {group.tools.map((tool) => (
-              <li key={tool.name}>
-                <ToolChip tool={tool} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+    <div className={cn("space-y-3", className)}>
+      <p className="sr-only">
+        Platforms we work with: {tools.map((tool) => tool.name).join(", ")}
+      </p>
+      <ToolMarquee items={tools.slice(0, half)} />
+      <ToolMarquee items={tools.slice(half)} reverse />
     </div>
   )
 }
