@@ -44,22 +44,22 @@ export default async function IndustryPage({ params }: { params: Params }) {
               </Link>{" "}
               / {industry.name}
             </nav>
-            <span className="mt-6 grid h-14 w-14 place-items-center rounded-xl bg-ink text-sun">
+            <span className="mt-6 grid h-14 w-14 place-items-center rounded-xl bg-blue-600/20 text-blue-400">
               <Icon className="h-6 w-6" />
             </span>
-            <h1 className="mt-5 text-4xl font-bold tracking-tight text-balance sm:text-6xl">{industry.name}</h1>
+            <h1 className="mt-5 text-4xl font-bold tracking-tighter text-balance sm:text-6xl">{industry.name}</h1>
             <p className="mt-4 text-xl font-medium text-ink-soft text-balance">{industry.tagline}</p>
             <p className="mt-4 max-w-2xl leading-relaxed text-muted">{industry.intro}</p>
             <Link href="/contact/" className="btn btn-primary mt-8">
               Get a free {industry.short} marketing review <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          <div className="rounded-3xl border-2 border-ink bg-white p-6 shadow-[8px_8px_0_var(--color-ink)] sm:p-8">
+          <div className="rounded-xl border border-gray-800 bg-gray-900 p-6 shadow-lg sm:p-8">
             <p className="eyebrow">What we build</p>
             <ul className="mt-5 space-y-3">
               {industry.builds.map((item) => (
                 <li key={item} className="flex items-center gap-3">
-                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-leaf">
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-blue-600/20 text-blue-400">
                     <Check className="h-3.5 w-3.5" />
                   </span>
                   {item}
@@ -70,13 +70,13 @@ export default async function IndustryPage({ params }: { params: Params }) {
         </div>
       </section>
 
-      <section className="border-y border-line bg-white py-20 sm:py-24">
+      <section className="border-y border-line bg-gray-900 py-20 sm:py-24">
         <div className="container-page">
           <SectionHeading eyebrow="The problems we solve" title={`What holds ${industry.short} businesses back`} />
           <div className="mt-12 grid gap-8 md:grid-cols-3">
             {industry.challenges.map((challenge, i) => (
-              <div key={challenge.title} className="border-t-2 border-ink pt-5">
-                <span className="font-pixel text-xs text-rail">0{i + 1}</span>
+              <div key={challenge.title} className="border-t border-gray-800 pt-5">
+                <span className="font-pixel text-xs text-blue-400">0{i + 1}</span>
                 <h3 className="mt-2 text-lg font-bold">{challenge.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{challenge.text}</p>
               </div>
@@ -103,11 +103,11 @@ export default async function IndustryPage({ params }: { params: Params }) {
       {caseStudy && (
         <section className="pb-20 sm:pb-28">
           <div className="container-page">
-            <div className="rounded-3xl bg-brand p-8 text-white sm:p-12">
+            <div className="rounded-xl border border-blue-600/30 bg-gradient-to-br from-blue-950/60 to-gray-900 p-8 text-white sm:p-12">
               <p className="eyebrow !text-sun">Client story · {caseStudy.name}</p>
               <p className="mt-4 max-w-3xl text-xl leading-relaxed sm:text-2xl">{caseStudy.description}</p>
               {caseStudy.id === "artistic-skylights" && (
-                <blockquote className="mt-8 border-l-4 border-sun pl-5 text-white/85">
+                <blockquote className="mt-8 border-l-4 border-blue-600 pl-5 text-white/85">
                   “{testimonial.quote}”
                   <footer className="mt-3 text-sm text-white/70">
                     {testimonial.author}, {testimonial.title}, {testimonial.company}

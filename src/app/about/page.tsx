@@ -26,7 +26,7 @@ export default function AboutPage() {
         <div className="container-page grid gap-12 lg:grid-cols-2 lg:items-center">
           <div className="animate-rise">
             <p className="eyebrow">About us</p>
-            <h1 className="mt-3 text-4xl font-bold tracking-tight text-balance sm:text-6xl">
+            <h1 className="mt-3 text-4xl font-bold tracking-tighter text-balance sm:text-6xl">
               Canadian owned. Canadian operated. Full service.
             </h1>
             <p className="mt-6 text-lg leading-relaxed text-muted">
@@ -40,7 +40,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-3xl border-2 border-ink bg-rail p-6 text-white shadow-[6px_6px_0_var(--color-ink)] sm:col-span-2">
+            <div className="rounded-xl bg-blue-600 p-6 text-white shadow-lg sm:col-span-2">
               <MapleLeaf className="h-10 w-10" />
               <p className="mt-4 text-2xl font-bold">100% Canadian-owned and operated</p>
             </div>
@@ -56,12 +56,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="border-y border-line bg-white py-20 sm:py-24">
+      <section className="border-y border-line bg-gray-900 py-20 sm:py-24">
         <div className="container-page">
           <SectionHeading eyebrow="What we stand for" title="How we work" />
           <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {values.map((value, i) => (
-              <div key={value.title} className="border-t-2 border-ink pt-5">
+              <div key={value.title} className="border-t border-gray-800 pt-5">
                 <span className="font-pixel text-xs text-brand">0{i + 1}</span>
                 <h3 className="mt-2 text-lg font-bold">{value.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{value.text}</p>
@@ -78,7 +78,7 @@ export default function AboutPage() {
             <ol className="mt-8 space-y-6">
               {processSteps.map((step) => (
                 <li key={step.step} className="flex gap-4">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border-2 border-ink bg-sun font-pixel text-sm">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-blue-600 font-pixel text-white text-sm">
                     {step.step}
                   </span>
                   <div>

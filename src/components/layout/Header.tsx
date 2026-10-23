@@ -22,7 +22,7 @@ export function Header() {
   useEffect(() => setOpen(false), [pathname])
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-paper/85 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-line bg-gray-950/95 backdrop-blur-md">
       <div className="container-page flex h-16 items-center justify-between">
         <Logo />
 
@@ -35,7 +35,7 @@ export function Header() {
                 <Link
                   href={item.href}
                   className={cn(
-                    "inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-ink-soft transition-colors hover:bg-paper-deep hover:text-ink",
+                    "inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-ink-soft transition-colors hover:bg-gray-800 hover:text-ink",
                     current && "text-ink"
                   )}
                   aria-current={current ? "page" : undefined}
@@ -45,12 +45,12 @@ export function Header() {
                 </Link>
                 {submenu && (
                   <div className="invisible absolute left-0 top-full pt-2 opacity-0 transition-all group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
-                    <ul className="w-72 rounded-2xl border-2 border-ink bg-white p-2 shadow-[6px_6px_0_var(--color-ink)]">
+                    <ul className="w-72 rounded-xl border border-gray-800 bg-gray-900 p-2 shadow-lg">
                       {submenu.map((link) => (
                         <li key={link.href}>
                           <Link
                             href={link.href}
-                            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-ink-soft hover:bg-brand-soft hover:text-ink"
+                            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-ink-soft hover:bg-gray-800 hover:text-ink"
                           >
                             {link.badge && <span className="font-pixel text-[10px] text-brand">{link.badge}</span>}
                             {link.label}
@@ -71,7 +71,7 @@ export function Header() {
           </Link>
           <button
             type="button"
-            className="rounded-lg border-2 border-ink bg-white p-2 md:hidden"
+            className="rounded-lg border border-gray-800 bg-gray-900 p-2 md:hidden"
             onClick={() => setOpen(!open)}
             aria-label="Toggle mobile menu"
             aria-expanded={open}

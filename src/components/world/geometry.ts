@@ -58,5 +58,5 @@ export function hash2(x: number, y: number) {
 export function fitZoom(mode: "full" | "segment", width: number, height: number) {
   return mode === "full"
     ? Math.min(width / 26.5, height / 24)
-    : Math.min(width / 12, height / 8.5)
+    : Math.min(width / 9.5, height / 7)
 }

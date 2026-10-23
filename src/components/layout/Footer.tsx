@@ -7,15 +7,15 @@ import { MapleLeaf } from "../common/MapleLeaf"
 
 export function Footer() {
   return (
-    <footer className="bg-ink text-white/70">
+    <footer className="relative z-10 border-t border-gray-800 bg-gray-900 text-gray-400">
       <div className="container-page grid gap-10 py-16 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
         <div className="space-y-4">
           <Logo inverted />
           <p className="max-w-sm text-sm leading-relaxed">
             A full-service digital agency for marketing, websites and custom software. One team, every stop on the line.
           </p>
-          <p className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1.5 text-xs text-white">
-            <MapleLeaf className="h-3.5 w-3.5 text-rail" />
+          <p className="inline-flex items-center gap-2 rounded-md border border-gray-700 px-3 py-1.5 text-xs text-white">
+            <MapleLeaf className="h-3.5 w-3.5 text-red-500" />
             Canadian-owned and operated
           </p>
         </div>

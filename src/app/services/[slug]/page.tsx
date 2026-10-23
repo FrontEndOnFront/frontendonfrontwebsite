@@ -50,14 +50,13 @@ export default async function ServicePage({ params }: { params: Params }) {
             </nav>
             <div className="mt-6 flex items-center gap-3">
               <span
-                className="grid h-12 w-12 place-items-center rounded-xl border-2 border-ink"
-                style={{ backgroundColor: service.world.ground }}
+                className="grid h-12 w-12 place-items-center rounded-lg bg-blue-600 text-white"
               >
                 <Icon className="h-5 w-5" />
               </span>
               <p className="eyebrow">{service.short}</p>
             </div>
-            <h1 className="mt-4 text-4xl font-bold tracking-tight text-balance sm:text-5xl lg:text-6xl">
+            <h1 className="mt-4 text-4xl font-bold tracking-tighter text-balance sm:text-5xl lg:text-6xl">
               {service.name}
             </h1>
             <p className="mt-4 text-xl font-medium text-ink-soft text-balance">{service.tagline}</p>
@@ -81,7 +80,7 @@ export default async function ServicePage({ params }: { params: Params }) {
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {service.deliverables.map((item) => (
               <div key={item.title} className="card p-6">
-                <span className="grid h-8 w-8 place-items-center rounded-md bg-leaf text-ink">
+                <span className="grid h-8 w-8 place-items-center rounded-md bg-blue-600/20 text-blue-400">
                   <Check className="h-4 w-4" />
                 </span>
                 <h3 className="mt-4 text-lg font-bold">{item.title}</h3>
@@ -92,10 +91,10 @@ export default async function ServicePage({ params }: { params: Params }) {
         </div>
       </section>
 
-      <section className="bg-ink py-20 text-white sm:py-24">
+      <section className="bg-gray-900 py-20 text-white sm:py-24">
         <div className="container-page">
           <p className="eyebrow !text-sun">Our approach</p>
-          <h2 className="mt-3 max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">How we run {service.short}</h2>
+          <h2 className="mt-3 max-w-2xl text-3xl font-bold tracking-tighter sm:text-4xl">How we run {service.short}</h2>
           <ol className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {service.approach.map((step, i) => (
               <li key={step.title} className="border-t-2 border-white/20 pt-5">
@@ -143,7 +142,7 @@ export default async function ServicePage({ params }: { params: Params }) {
         </div>
       </section>
 
-      <nav className="border-t border-line bg-white" aria-label="Other services">
+      <nav className="border-t border-line bg-gray-900" aria-label="Other services">
         <div className="container-page grid gap-4 py-10 sm:grid-cols-2">
           <Link href={`/services/${previous.slug}/`} className="card card-link group flex items-center gap-4 p-5">
             <ArrowLeft className="h-5 w-5 transition-transform group-hover:-translate-x-1" />

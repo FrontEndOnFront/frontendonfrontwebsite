@@ -16,7 +16,7 @@ export default function IndustriesPage() {
         <div className="container-page">
           <div className="max-w-3xl animate-rise">
             <p className="eyebrow">Industries</p>
-            <h1 className="mt-3 text-4xl font-bold tracking-tight text-balance sm:text-6xl">
+            <h1 className="mt-3 text-4xl font-bold tracking-tighter text-balance sm:text-6xl">
               Built for the industries that build Canada
             </h1>
             <p className="mt-6 text-lg leading-relaxed text-muted">

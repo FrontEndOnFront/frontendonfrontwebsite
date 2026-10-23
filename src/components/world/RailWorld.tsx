@@ -22,7 +22,9 @@ import {
   sectorAt,
   travelHeading,
 } from "./geometry"
+import { FixedTimeProvider, useTimeline } from "./anim"
 import { stations } from "./stations"
+import { FINAL_FRAME, stepAt } from "./timeline"
 import { BOX, DARK, PixelText, Tree, Vox, mat, type V3 } from "./voxels"
 
 const COUNT = services.length
@@ -43,6 +45,8 @@ export interface RailWorldProps {
   control: RefObject<WorldControl>
   labels: RefObject<(HTMLElement | null)[]>
   fallback: React.ReactNode
+  /** Called whenever the shared station timeline moves to a new step. */
+  onStep: (step: number) => void
 }
 
 function instanced(cells: { p: V3; s: V3; c: THREE.Color }[], material: THREE.Material) {
@@ -162,9 +166,9 @@ function Track() {
 }
 
 const WAGONS = [
-  { body: "#2563eb", cargo: ["#facc15", "#f8fafc"] },
-  { body: "#16a34a", cargo: ["#c08a4f", "#c08a4f"] },
-  { body: "#f5b301", cargo: ["#22d3ee", "#f472b6"] },
+  { body: "#60a5fa", cargo: ["#f8fafc", "#2563eb"] },
+  { body: "#374151", cargo: ["#4ade80", "#60a5fa"] },
+  { body: "#2563eb", cargo: ["#f8fafc", "#4ade80"] },
 ]
 
 function Wheels({ xs }: { xs: number[] }) {
@@ -181,9 +185,9 @@ function Locomotive() {
   return (
     <group>
       <Vox p={[0, 0.3, 0]} s={[1.7, 0.22, 0.8]} c={DARK} />
-      <Vox p={[0.3, 0.72, 0]} s={[1.0, 0.62, 0.7]} c="#e4472f" />
+      <Vox p={[0.3, 0.72, 0]} s={[1.0, 0.62, 0.7]} c="#2563eb" />
       <Vox p={[0.82, 0.72, 0]} s={[0.06, 0.4, 0.4]} c="#fde68a" />
-      <Vox p={[-0.45, 0.85, 0]} s={[0.62, 0.9, 0.8]} c="#c2361f" />
+      <Vox p={[-0.45, 0.85, 0]} s={[0.62, 0.9, 0.8]} c="#1d4ed8" />
       <Vox p={[-0.45, 0.98, 0.41]} s={[0.36, 0.3, 0.02]} c="#bae6fd" />
       <Vox p={[-0.45, 0.98, -0.41]} s={[0.36, 0.3, 0.02]} c="#bae6fd" />
       <Vox p={[-0.45, 1.36, 0]} s={[0.78, 0.12, 0.92]} c={DARK} />
@@ -346,8 +350,8 @@ function CameraRig({ mode }: { mode: RailWorldProps["mode"] }) {
   const { camera, size, invalidate } = useThree()
   useLayoutEffect(() => {
     const cam = camera as THREE.OrthographicCamera
-    const [fx, fz] = polar(10.2, FRONT_ANGLE)
-    const target = mode === "full" ? new THREE.Vector3(0, 2.4, 0) : new THREE.Vector3(fx, 1.6, fz)
+    const [fx, fz] = polar(11.4, FRONT_ANGLE)
+    const target = mode === "full" ? new THREE.Vector3(0, 2.4, 0) : new THREE.Vector3(fx, 1.5, fz)
     cam.position.copy(target).addScaledVector(CAMERA_DIRECTION, 60)
     cam.lookAt(target)
     cam.zoom = fitZoom(mode, size.width, size.height)
@@ -392,7 +396,19 @@ function LabelProjector({ anchors, labels }: { anchors: RefObject<(THREE.Object3
   return null
 }
 
-export default function RailWorld({ mode, focus, active, reducedMotion, control, labels, fallback }: RailWorldProps) {
+function StepWatcher({ onStep }: { onStep: RailWorldProps["onStep"] }) {
+  const last = useRef(-1)
+  useTimeline((t) => {
+    const { step } = stepAt(t)
+    if (step !== last.current) {
+      last.current = step
+      onStep(step)
+    }
+  })
+  return null
+}
+
+export default function RailWorld({ mode, focus, active, reducedMotion, control, labels, fallback, onStep }: RailWorldProps) {
   const anchors = useRef<(THREE.Object3D | null)[]>([])
   const trains = mode === "full" ? [0] : [0, Math.PI]
 
@@ -422,6 +438,8 @@ export default function RailWorld({ mode, focus, active, reducedMotion, control,
         shadow-bias={-0.0006}
       />
       <CameraRig mode={mode} />
+      <FixedTimeProvider value={reducedMotion ? FINAL_FRAME : null}>
+      <StepWatcher onStep={onStep} />
       <Rotator mode={mode} focus={focus} control={control}>
         <Terrain />
         <Track />
@@ -432,6 +450,7 @@ export default function RailWorld({ mode, focus, active, reducedMotion, control,
           <Train key={offset} offset={offset + (mode === "segment" ? sectorAngle(focus, COUNT) - 0.5 : 0)} />
         ))}
       </Rotator>
+      </FixedTimeProvider>
       <LabelProjector anchors={anchors} labels={labels} />
     </Canvas>
   )

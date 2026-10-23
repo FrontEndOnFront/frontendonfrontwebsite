@@ -6,6 +6,7 @@ import Link from "next/link"
 import { services, stopNumber } from "@/lib/services"
 import { cn } from "@/lib/utils"
 import type { WorldControl } from "./RailWorld"
+import { STEP_COUNT, STEP_SECONDS } from "./timeline"
 
 function WorldLoading() {
   return (
@@ -26,6 +27,35 @@ function StopList({ focus }: { focus?: number }) {
         </li>
       ))}
     </ol>
+  )
+}
+
+/** "Step 2 of 4: Fix the foundation", kept in sync with the station's animation. */
+function StepCaption({ service, step, animate }: { service: (typeof services)[number]; step: number; animate: boolean }) {
+  return (
+    <div className="pointer-events-none absolute left-3 right-3 top-3 sm:right-auto sm:w-80" aria-live="polite">
+      <div className="rounded-lg border border-gray-700 bg-gray-950/85 p-3 shadow-lg backdrop-blur-sm">
+        <p className="font-pixel text-[11px] text-blue-400">
+          Step {step + 1} of {STEP_COUNT}
+        </p>
+        <p className="mt-0.5 font-semibold text-white">{service.approach[step]?.title}</p>
+        <p className="mt-0.5 text-xs leading-snug text-gray-400">{service.approach[step]?.text}</p>
+        <div className="mt-2.5 grid grid-cols-4 gap-1">
+          {service.approach.map((s, i) => (
+            <span key={s.title} className="h-1 overflow-hidden rounded-full bg-gray-800">
+              {i < step && <span className="block h-full bg-blue-600" />}
+              {i === step && (
+                <span
+                  key={step}
+                  className="block h-full origin-left bg-blue-400"
+                  style={animate ? { animation: `step-fill ${STEP_SECONDS}s linear both` } : undefined}
+                />
+              )}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -58,6 +88,7 @@ export function World({ mode, focus = 0, className }: WorldProps) {
   const control = useRef<WorldControl>({ angle: 0, paused: false })
   const drag = useRef<{ x: number; id: number } | null>(null)
   const [active, setActive] = useState(false)
+  const [step, setStep] = useState(0)
   const reducedMotion = usePrefersReducedMotion()
 
   useEffect(() => {
@@ -102,7 +133,9 @@ export function World({ mode, focus = 0, className }: WorldProps) {
         control={control}
         labels={labels}
         fallback={<StopList focus={mode === "segment" ? focus : undefined} />}
+        onStep={setStep}
       />
+      {mode === "segment" && <StepCaption service={services[focus]} step={step} animate={!reducedMotion} />}
       <div className="pointer-events-none absolute inset-0">
         {services.map((service, i) =>
           mode === "segment" && i === focus ? null : (
@@ -116,8 +149,11 @@ export function World({ mode, focus = 0, className }: WorldProps) {
               onMouseLeave={() => (control.current.paused = false)}
               className="world-label pointer-events-auto absolute left-0 top-0 opacity-0"
             >
-              <span className="font-pixel text-[10px] text-brand">{stopNumber(i)}</span>
+              <span className="font-pixel text-[10px] text-blue-400">{stopNumber(i)}</span>
               <span>{service.short}</span>
+              {mode === "full" && (
+                <span className="hidden font-normal text-gray-400 sm:inline">· {service.approach[step]?.title}</span>
+              )}
             </Link>
           )
         )}

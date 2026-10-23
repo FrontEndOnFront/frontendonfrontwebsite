@@ -5,8 +5,8 @@ import { site } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
 const field =
-  "w-full rounded-xl border-2 border-line bg-paper px-3.5 py-2.5 text-ink placeholder:text-muted/60 focus:border-brand focus:outline-none"
-const label = "mb-1.5 block text-sm font-medium text-ink-soft"
+  "w-full rounded-md border border-gray-700 bg-gray-800 px-3 py-2 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-600"
+const label = "mb-1.5 block text-sm font-medium text-gray-300"
 
 export function ContactForm({ className }: { className?: string }) {
   return (
@@ -14,7 +14,7 @@ export function ContactForm({ className }: { className?: string }) {
       action={site.formAction}
       method="POST"
       className={cn(
-        "rounded-3xl border-2 border-ink bg-white p-6 text-ink shadow-[8px_8px_0_var(--color-sun)] sm:p-8",
+        "rounded-xl border border-gray-800 bg-gray-900 p-6 text-white shadow-lg sm:p-8",
         className
       )}
     >
@@ -84,7 +84,7 @@ export function ContactForm({ className }: { className?: string }) {
       </div>
 
       <label className="mt-4 flex items-start gap-2.5 text-sm text-ink-soft">
-        <input type="checkbox" name="consent" required className="mt-0.5 h-4 w-4 accent-brand" />
+        <input type="checkbox" name="consent" required className="mt-0.5 h-4 w-4 accent-blue-600" />
         I agree to be contacted about my enquiry.
       </label>
 
